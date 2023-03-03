@@ -12,7 +12,7 @@ connBoundwOrder List := ZZ => L -> (
         );
         min K
     );
-    #L-#faces(0,simplicialComplex L) + first degree L#0 + sum J
+    #L - #faces(0,simplicialComplex L) + first degree L#0 + sum J
 )
 
 -- A function that bounds the regularity of a square-free monomial ideal
@@ -48,7 +48,7 @@ connBoundFacets SimplicialComplex := ZZ => G -> (
                 );
             min M
         );
-        #L-#faces(0,simplicialComplex L) + first degree L#0 + sum K    
+        #L - #faces(0,simplicialComplex L) + first degree L#0 + sum K    
     );
     O = for l from 0 to #J - 1 list (
     if J#l == min J then N#l
