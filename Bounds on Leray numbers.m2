@@ -1,5 +1,4 @@
 -- presets
-loadPackage "GenericInitialIdeal"
 loadPackage "SimplicialComplexes"
 
 -- a function that bounds the regularity of a square-free monomial ideal
