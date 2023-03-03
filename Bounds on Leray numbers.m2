@@ -1,7 +1,7 @@
--- presets
+-- PRESETS
 loadPackage "SimplicialComplexes"
 
--- a function that bounds the regularity of a square-free monomial ideal
+-- A function that bounds the regularity of a square-free monomial ideal
 -- INPUT: a list of facets with ordering
 -- OUTPUT: the value that gives a bound for the leray number of the simplicial complex with respect to the 
 connBoundwOrder = method()
@@ -15,7 +15,7 @@ connBoundwOrder List := ZZ => L -> (
     #L-#faces(0,simplicialComplex L) + first degree L#0 + sum J
 )
 
--- a function that bounds the regularity of a square-free monomial ideal
+-- A function that bounds the regularity of a square-free monomial ideal
 -- INPUT: a simplicial complex
 -- OUTPUT: the value that gives a bound for the leray number of the simplicial complex
 connBound = method()
@@ -56,7 +56,7 @@ connBoundFacets SimplicialComplex := ZZ => G -> (
     delete(null,O)
 )
 
--- CODE: the function $\tilde M$ of the simplicial complex $\Delta$ given order of facets
+-- The function $\tilde M$ of the simplicial complex $\Delta$ given order of facets
 -- INPUT: the list of facets with ordering on facets
 -- OUTPUT: the integer $\tilde M$ with respect to the ordering of facets. 
 constructBoundwOrder = method()
@@ -72,7 +72,7 @@ constructBoundwOrder List := ZZ => L -> (
     M
 )
 
--- CODE: the function $\tilde M$ of the simplicial complex $\Delta$
+-- The function $\tilde M$ of the simplicial complex $\Delta$
 -- INPUT: the list of facets
 -- OUTPUT: the integer $\tilde M$.
 constructBound = method()
@@ -94,7 +94,7 @@ constructBound SimplicialComplex := ZZ => G -> (
     min J    
 )
 
--- CODE: find the list of facets with orderings that gives the value $\tilde{M}$.
+-- Find the list of facets with orderings that gives the value $\tilde{M}$.
 -- INPUT: the list of facets
 -- OUTPUT: the list of facets with orderings which gives the value $\tilde{M}$.
 constructBoundFacets = method()
