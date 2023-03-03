@@ -4,7 +4,20 @@ loadPackage "Resultants"
 loadPackage "PhylogeneticTrees"
 loadPackage "SimplicialComplexes"
 
--- Examples
+
+
+-- An example
+R = QQ[x_1..x_6]; -- set a polynomial ring so that variables are vertices of the complex
+G = simplicialComplex {x_1*x_2*x_4,x_1*x_3*x_5,x_2*x_3*x_6,x_4*x_5*x_6}; -- The simplicial complex consists of the facets in {}
+L = facets G; -- It gives the list of facets of the simplicial complex G.
+strBoundwOrder L
+strBound G
+strBoundFacets G
+connBoundwOrder L
+connBound G
+connBoundFacets G
+
+
 -- Secant variety of rational normal curves and their generic ideals
 (d,r) = (6,2);
 R = QQ[x_0..x_d];
