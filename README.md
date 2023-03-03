@@ -1,4 +1,4 @@
-# Bounds-for-Leray-Numbers
+# Bounds-on-Leray-Numbers
 
 This project is started to support the computations on our paper "Weak Eisenbud-Goto conjecture for Stanley-Reisner ideal" joint work with Jinha Kim, Minki Kim, and Yeongrak Kim.
 
