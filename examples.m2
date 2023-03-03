@@ -1,5 +1,8 @@
 -- Presets
-loadPackages "GenericInitialIdeal.m2"
+loadPackage "GenericInitialIdeal"
+loadPackage "Resultants"
+loadPackage "PhylogeneticTrees"
+loadPackage "SimplicialComplexes"
 
 -- Examples
 -- Secant variety of rational normal curves and their generic ideals
@@ -81,7 +84,6 @@ G = simplicialComplex J
 L = facets G
 
 --- Example: Initial Ideals of the Veronese surface
-loadPackage "Resultants"
 phi = veronese (3,3) --- The ring map of the Veronese surface (n,d), n = dim, d = degree.
 I = ker phi -- I is the ideal of the Veronese surface
 J = polarize monomialIdeal gin I -- J is the polarization of generic initial ideal
@@ -130,7 +132,6 @@ betti res J
 simplicialComplex J
 
 --- Example: linear projection of rational normal curves 
-loadPackage "PhylogeneticTrees"
 phi = veronese (1,5)
 I = ker phi
 L = sub(randomRankPoint(5,3,target phi),ring I)
