@@ -59,8 +59,8 @@ connBoundFacets SimplicialComplex := ZZ => G -> (
 -- The function $\tilde M$ of the simplicial complex $\Delta$ given order of facets
 -- INPUT: the list of facets with ordering on facets
 -- OUTPUT: the integer $\tilde M$ with respect to the ordering of facets. 
-constructBoundwOrder = method()
-constructBoundwOrder List := ZZ => L -> (
+strBoundwOrder = method()
+strBoundwOrder List := ZZ => L -> (
     M := 1;
     for i from 1 to #L-1 do (
         for j from 0 to i-1 do ( 
@@ -75,8 +75,8 @@ constructBoundwOrder List := ZZ => L -> (
 -- The function $\tilde M$ of the simplicial complex $\Delta$
 -- INPUT: the list of facets
 -- OUTPUT: the integer $\tilde M$.
-constructBound = method()
-constructBound SimplicialComplex := ZZ => G -> (
+strBound = method()
+strBound SimplicialComplex := ZZ => G -> (
     L = facets G;
     N = permutations L;
     J = for k from 0 to #N - 1 list (
@@ -97,8 +97,8 @@ constructBound SimplicialComplex := ZZ => G -> (
 -- Find the list of facets with orderings that gives the value $\tilde{M}$.
 -- INPUT: the list of facets
 -- OUTPUT: the list of facets with orderings which gives the value $\tilde{M}$.
-constructBoundFacets = method()
-constructBoundFacets SimplicialComplex := ZZ => G -> (
+strBoundFacets = method()
+strBoundFacets SimplicialComplex := ZZ => G -> (
     L = facets G;
     N = permutations L;
     J = for k from 0 to #N - 1 list (
