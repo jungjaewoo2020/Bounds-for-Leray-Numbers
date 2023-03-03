@@ -123,9 +123,9 @@ TEST ///
 R = QQ[x_1..x_6];
 G = simplicialComplex {x_1*x_2*x_4,x_1*x_3*x_5,x_2*x_3*x_6,x_4*x_5*x_6};
 L = facets G;
-constructBoundwOrder L
-constructBound G
-constructBoundFacets G
+strBoundwOrder L
+strBound G
+strBoundFacets G
 connBoundwOrder L
 connBound G
 connBoundFacets G
