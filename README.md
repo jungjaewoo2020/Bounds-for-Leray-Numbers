@@ -1,6 +1,6 @@
 # Bounds-for-Leray-Numbers
 
-This project begins to support the computations on our paper "Weak Eisenbud-Goto conjecture for Stanley-Reisner ideal" joint work with Jinha Kim, Minki Kim, and Yeongrak Kim.
+This project started to support the computations on our paper "Weak Eisenbud-Goto conjecture for Stanley-Reisner ideal" joint work with Jinha Kim, Minki Kim, and Yeongrak Kim.
 
 If you need some assistance to install the computer software system "Macaulay2", see the webpage http://macaulay2.com/ and follow their instructions.
 
