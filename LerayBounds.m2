@@ -20,16 +20,17 @@ connBoundwOrder List := ZZ => L -> (
 -- OUTPUT: the value that gives a bound for the leray number of the simplicial complex
 connBound = method()
 connBound SimplicialComplex := ZZ => G -> (
-    L = facets G;
-    N = permutations L;
-    J = for k from 0 to #N - 1 list (
-            K = for i from 1 to #L-1 list (
-                M = for j from 0 to i-1 list (
-                    first(degree L#i) - first degree gcd(L#j,L#i) - 1
+    L := facets G;
+    N := permutations L;
+    J := for k from 0 to #N - 1 list (
+            A := N#k; 
+            K := for i from 1 to #L-1 list (
+                M := for j from 0 to i-1 list (
+                    first(degree A#i) - first degree gcd(A#j,A#i) - 1
                 );
             min M
         );
-        #L-#faces(0,simplicialComplex L) + first degree L#0 + sum K    
+        #A - #faces(0,simplicialComplex A) + first degree A#0 + sum K    
     );
     min J
 )
@@ -39,18 +40,19 @@ connBound SimplicialComplex := ZZ => G -> (
 -- OUTPUT: the list of facets with orderings which gives the value for bounds on the Leray number.
 connBoundFacets = method()
 connBoundFacets SimplicialComplex := ZZ => G -> (
-    L = facets G;
-    N = permutations L;
-    J = for k from 0 to #N - 1 list (
-            K = for i from 1 to #L-1 list (
-                M = for j from 0 to i-1 list (
-                    first(degree L#i) - first degree gcd(L#j,L#i) - 1
+    L := facets G;
+    N := permutations L;
+    J := for k from 0 to #N - 1 list (
+            A := N#k;
+            K := for i from 1 to #L-1 list (
+                M := for j from 0 to i-1 list (
+                    first(degree A#i) - first degree gcd(A#j,A#i) - 1
                 );
             min M
         );
         #L - #faces(0,simplicialComplex L) + first degree L#0 + sum K    
     );
-    O = for l from 0 to #J - 1 list (
+    O := for l from 0 to #J - 1 list (
     if J#l == min J then N#l
     );
     delete(null,O)
@@ -64,10 +66,9 @@ strBoundwOrder List := ZZ => L -> (
     M := 1;
     for i from 1 to #L-1 do (
         for j from 0 to i-1 do ( 
-        T = simplicialComplex apply(i, j->gcd(L#j,L#i));
+        T = simplicialComplex apply(i, j->gcd(L#j,L#i))
         );
-        if facets simplicialComplex {product(faces(0,T))} == facets T then M = M;
-        if facets simplicialComplex {product(faces(0,T))} =!= facets T then M = M + 1;
+        if facets simplicialComplex {product(faces(0,T))} == facets T then M = M else M = M + 1
     );
     M
 )
@@ -83,15 +84,14 @@ strBound SimplicialComplex := ZZ => G -> (
         M = 1;
         P = N#k;
             for i from 1 to #P-1 do (
-            for j from 0 to i-1 do ( 
-            T = simplicialComplex apply(i, j->gcd(P#j,P#i));
-            );
-            if facets simplicialComplex {product(faces(0,T))} == facets T then M = M;
-            if facets simplicialComplex {product(faces(0,T))} =!= facets T then M = M + 1;
+                for j from 0 to i-1 do ( 
+                    T = simplicialComplex apply(i, j->gcd(P#j,P#i))
+                );
+            if facets simplicialComplex {product(faces(0,T))} == facets T then M = M else M = M + 1
         );
         M
     );
-    min J    
+    min J
 )
 
 -- Find the list of facets with orderings that gives the value $\tilde{M}$.
@@ -105,16 +105,15 @@ strBoundFacets SimplicialComplex := ZZ => G -> (
         M = 1;
         P = N#k;
             for i from 1 to #P-1 do (
-            for j from 0 to i-1 do ( 
-            T = simplicialComplex apply(i, j->gcd(P#j,P#i));
+                for j from 0 to i-1 do ( 
+                    T = simplicialComplex apply(i, j->gcd(P#j,P#i))
+                );
+            if facets simplicialComplex {product(faces(0,T))} == facets T then M = M else M = M + 1
             );
-            if facets simplicialComplex {product(faces(0,T))} == facets T then M = M;
-            if facets simplicialComplex {product(faces(0,T))} =!= facets T then M = M + 1;
-        );
         M
     );
     K = for l from 0 to #J - 1 list (
-    if J#l == min J then N#l
+        if J#l == min J then N#l
     );
     delete(null,K)
 )
