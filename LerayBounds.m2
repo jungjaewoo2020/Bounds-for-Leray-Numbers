@@ -118,6 +118,84 @@ strBoundFacets SimplicialComplex := ZZ => G -> (
     delete(null,K)
 )
 
+-- CODE: Weak shelling of a simplicial complex with ordering of facets
+-- INPUT: The list of facets of a simplicial complex
+-- OUTPUT: A Boolean value and an ordered facets that is a weak shelling of the complex
+weakShellwOrder = method ()
+weakShellwOrder List := (Boolean,List) => L -> (
+    K = for i from 1 to #L-1 list (
+        J = for j from 0 to i-1 list (
+            gcd (L#j,L#i)
+        );
+        T = simplicialComplex J;
+        if #faces(0,T) > dim T + 2 then break; L#i
+    );
+    if prepend(L#0,K) == L then return (true, prepend(L#0,K)) else return(false, null)
+)
+
+-- CODE: A weak shelling of a simplicial complex
+-- INPUT: A simplicial complex
+-- OUTPUT: A weak shelling of a simplicial complex
+weakShelling = method ()
+weakShelling SimplicialComplex := List => G -> (
+    M := facets G;
+    N := permutations M;
+    for k from 0 to #N-1 do (
+        L = N#k;
+        K = for i from 1 to #L-1 list (
+            J = for j from 0 to i-1 list (
+                gcd (L#j,L#i)
+            );
+            T = simplicialComplex J;
+            if #faces(0,T) > dim T + 2 then break; L#i
+        );
+        if prepend(L#0,K) == L then break L else null   
+    )
+)
+
+-- CODE: Determine Weak shellable of a simplicial complex
+-- INPUT: A simplicial complex
+-- OUTPUT: Boolean value
+isWeakShellable = method ()
+isWeakShellable SimplicialComplex := Boolean => G -> (
+    M := facets G;
+    N := permutations M;
+    O = for k from 0 to #N-1 do (
+        L = N#k;
+        K = for i from 1 to #L-1 list (
+            J = for j from 0 to i-1 list (
+                gcd (L#j,L#i)
+            );
+            T = simplicialComplex J;
+            if #faces(0,T) > dim T + 2 then break; L#i
+        );
+        if prepend(L#0,K) == L then break L else null   
+    );
+    if #O == #L then true else "notWeakShellable"
+)
+
+-- CODE: The list of ordered facets that is a weak shelling with respect the facet orders
+-- INPUT: A simplicial complex
+-- OUTPUT: The list of ordered facets that are weak shellings of the complex
+weakShellFacets = method ()
+weakShellFacets SimplicialComplex := List => G -> (
+    M := facets G;
+    N := permutations M;
+    O = for k from 0 to #N-1 list (
+        L = N#k;
+        K = for i from 1 to #L-1 list (
+            J = for j from 0 to i-1 list (
+                gcd (L#j,L#i)
+            );
+            T = simplicialComplex J;
+            if #faces(0,T) > dim T + 2 then break; L#i
+        );
+        if prepend(L#0,K) == L then L else null   
+    );
+    delete(null,O)
+)
+
+
 TEST ///
 R = QQ[x_1..x_6];
 G = simplicialComplex {x_1*x_2*x_4,x_1*x_3*x_5,x_2*x_3*x_6,x_4*x_5*x_6};
