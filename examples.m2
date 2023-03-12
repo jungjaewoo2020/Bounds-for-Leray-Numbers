@@ -171,3 +171,15 @@ constructBoundFacets G
 connBoundwOrder L
 connBound G
 connBoundFacets G
+
+-- Weak shellable complexes
+R = QQ[x_1..x_8];
+L = {x_1*x_2*x_3, x_3*x_4*x_5, x_1*x_5*x_6, x_6*x_7, x_7*x_8, x_2*x_8}
+L2 = {x_3*x_4*x_5, x_1*x_2*x_3, x_2*x_8, x_7*x_8, x_6*x_7, x_1*x_5*x_6}
+weakShellwOrder L
+weakShellwOrder L2
+
+G = simplicialComplex L
+isWeakshellable G
+weakShelling G
+weakShellFacets G
