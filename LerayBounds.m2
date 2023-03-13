@@ -64,13 +64,11 @@ connBoundFacets SimplicialComplex := ZZ => G -> (
 strBoundwOrder = method()
 strBoundwOrder List := ZZ => L -> (
     M := 1;
-    for i from 1 to #L-1 do (
-        for j from 0 to i-1 do ( 
-        T = simplicialComplex apply(i, j->gcd(L#j,L#i))
-        );
-        if facets simplicialComplex {product(faces(0,T))} == facets T then M = M else M = M + 1
+    S = for i from 1 to #L-1 list (
+        T = simplicialComplex apply(i, j->gcd(L#j,L#i));
+        if #facets simplicialComplex T == 1 then M = M else M = M + 1
     );
-    M
+    last S
 )
 
 -- The function $\tilde M$ of the simplicial complex $\Delta$
@@ -78,18 +76,16 @@ strBoundwOrder List := ZZ => L -> (
 -- OUTPUT: the integer $\tilde M$.
 strBound = method()
 strBound SimplicialComplex := ZZ => G -> (
-    L = facets G;
-    N = permutations L;
+    L := facets G;
+    N := permutations L;
     J = for k from 0 to #N - 1 list (
         M = 1;
         P = N#k;
-            for i from 1 to #P-1 do (
-                for j from 0 to i-1 do ( 
-                    T = simplicialComplex apply(i, j->gcd(P#j,P#i))
-                );
-            if facets simplicialComplex {product(faces(0,T))} == facets T then M = M else M = M + 1
+        S = for i from 1 to #P-1 list (
+            T = apply(i, j -> gcd(P#j,P#i));
+            if #facets simplicialComplex T == 1 then M = M else M = M + 1
         );
-        M
+        last S
     );
     min J
 )
@@ -99,18 +95,16 @@ strBound SimplicialComplex := ZZ => G -> (
 -- OUTPUT: the list of facets with orderings which gives the value $\tilde{M}$.
 strBoundFacets = method()
 strBoundFacets SimplicialComplex := ZZ => G -> (
-    L = facets G;
-    N = permutations L;
+    L := facets G;
+    N := permutations L;
     J = for k from 0 to #N - 1 list (
         M = 1;
         P = N#k;
-            for i from 1 to #P-1 do (
-                for j from 0 to i-1 do ( 
-                    T = simplicialComplex apply(i, j->gcd(P#j,P#i))
-                );
-            if facets simplicialComplex {product(faces(0,T))} == facets T then M = M else M = M + 1
-            );
-        M
+        S = for i from 1 to #P-1 list (
+            T = apply(i, j -> gcd(P#j,P#i));
+            if #facets simplicialComplex T == 1 then M = M else M = M + 1
+        );
+        last S
     );
     K = for l from 0 to #J - 1 list (
         if J#l == min J then N#l
