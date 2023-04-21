@@ -189,6 +189,47 @@ weakShellFacets SimplicialComplex := List => G -> (
     delete(null,O)
 )
 
+-- The order that minimize the bounds of the Leray number with respect to the connectivity.
+-- INPUT: A simplicial Complex
+-- OUTPUT: An (ordered) list of facets
+minConnOrder = method()
+minConnOrder SimplicialComplex := List => G -> (
+    L := facets G;
+    weights := flatten for i from 0 to #L-2 list(
+                for j from i+1 to #L-1 list(
+                (degree gcd(L#i,L#j))_0
+                )
+        );
+    edges := flatten for i from 0 to #L-2 list(
+                for j from i+1 to #L-1 list({L#i,L#j})
+        );
+    maxW := max weights;
+    orders := for l from 0 to maxW - 1 list(
+            unique flatten for k from 0 to binomial(#L,2) - 1 list (
+                            if weights#k < maxW - l  then continue
+                            else edges#k)
+            );
+    for m from 0 to #orders - 1 list (if #L == #orders#m then break orders#m)
+) 
+
+-- The order that minimize the bounds of the Leray number.
+-- INPUT: A simplicial Complex
+-- OUTPUT: An (ordered) list of facets
+minOrder = method ()
+minOrder SimplicialComplex := List => G -> (
+    leftFacets := facets G;
+    facetOrders := {last facets G};
+    const := for i from 0 to #leftFacets - 2 list(
+            leftFacets = delete(last facetOrders, leftFacets);
+            int = for j from 0 to #leftFacets - 1 list(simplicialComplex for k from 0 to #facetOrders - 1 list(gcd(facetOrders#k,leftFacets#j)));
+            intdeg = for l from 0 to #int - 1 list(
+                if facets int#l == facets simplicialComplex{1_(ring int#l)} then continue 0
+                else (fVector int#l)#1);
+            facetOrders = append(facetOrders, for m from 0 to #int - 1 list(if intdeg#m == max intdeg then break leftFacets#m))
+        );
+    last const
+)
+
 
 TEST ///
 R = QQ[x_1..x_6];
