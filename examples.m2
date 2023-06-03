@@ -183,3 +183,36 @@ G = simplicialComplex L
 isWeakshellable G
 weakShelling G
 weakShellFacets G
+
+-- Example 5.3
+needsPackage "GenericInitialIdeal"
+needsPackage "SimplicialComplexes"
+R = QQ[x_0..x_3];
+I = ideal(x_0^2,x_1^2,x_0*x_2+x_1*x_3);
+J = polarize monomialIdeal gin I
+G = simplicialComplex J
+degree I
+codim I
+degree J
+codim J
+connBound G
+strBound G
+isWeakShellable G
+L = minOrder G;
+weakShellwOrder L
+
+-- Example 5.4
+R = QQ[x_0..x_4];
+I = monomialIdeal(x_0*x_3, x_3^2, x_1*x_3, x_1^2, x_2*x_3, x_2^2);
+J = polarize I;
+G = simplicialComplex J;
+degree I
+codim I
+degree J
+codim J
+connBound G
+strBound G
+weakShelling G
+isWeakShellable G
+L = minOrder G;
+weakShellwOrder L
