@@ -127,7 +127,7 @@ weakShellwOrder List := (Boolean,List) => OrderedFacets -> (
         ComInt = simplicialComplex Intersections;
         if #faces(0,ComInt) > dim ComInt + 2 then break; OrderedFacets#i
     );
-    if prepend(OrderedFacets#0,WeakShells) == OrderedFacets then return (true, prepend(OrderedFacets#0,WeakShells)) else return(false, null)
+    if prepend(OrderedFacets#0,WeakShells) == OrderedFacets then return (true, prepend(OrderedFacets#0,WeakShells)) else return(false, {null})
 )
 
 
@@ -147,7 +147,7 @@ weakShelling SimplicialComplex := List => Complex -> (
             ComInt = simplicialComplex Intersections;
             if #faces(0,ComInt) > dim ComInt + 2 then break; SelectedOrder#i
         );
-        if prepend(SelectedOrder#0,WeakShells) == SelectedOrder then break SelectedOrder else null   
+        if prepend(SelectedOrder#0,WeakShells) == SelectedOrder then break SelectedOrder else return {null} 
     )
 )
 
@@ -156,20 +156,8 @@ weakShelling SimplicialComplex := List => Complex -> (
 -- OUTPUT: Boolean value
 isWeakShellable = method ()
 isWeakShellable SimplicialComplex := Boolean => Complex -> (
-    Facets := facets Complex;
-    OrdersList := permutations Facets;
-    Shelling = for k from 0 to #OrdersList-1 do (
-        SelectedOrder := OrdersList#k;
-        WeakShells = for i from 1 to #SelectedOrder-1 list (
-            Intersections = for j from 0 to i-1 list (
-                gcd (SelectedOrder#j,SelectedOrder#i)
-            );
-            IntCom = simplicialComplex Intersections;
-            if #faces(0,IntCom) > dim IntCom + 2 then break; SelectedOrder#i
-        );
-        if prepend(SelectedOrder#0,WeakShells) == SelectedOrder then break SelectedOrder else null   
-    );
-    if #Shelling == #SelectedOrder then true else "notWeakShellable"
+    WeakShelling := weakShelling Complex;
+    if #WeakShelling == #(facets Complex) then true else false
 )
 
 -- CODE: The list of ordered facets that is a weak shelling with respect the facet orders
