@@ -5,145 +5,149 @@ loadPackage "SimplicialComplexes"
 -- INPUT: a list of facets with ordering
 -- OUTPUT: the value that gives a bound for the leray number of the simplicial complex with respect to the 
 connBoundwOrder = method()
-connBoundwOrder List := ZZ => L -> (
-    J = for i from 1 to #L-1 list (
-        K = for j from 0 to i-1 list (
-           first(degree L#i) - first degree gcd(L#j,L#i) - 1
+connBoundwOrder List := ZZ => OrderedFacets -> (
+    Conn = for i from 1 to #OrderedFacets-1 list (
+        ListConn = for j from 0 to i-1 list (
+           first(degree OrderedFacets#i) - first degree gcd(OrderedFacets#j,OrderedFacets#i) - 1
         );
-        min K
+        min ListConn
     );
-    #L - #faces(0,simplicialComplex L) + first degree L#0 + sum J
+    #OrderedFacets - #faces(0,simplicialComplex OrderedFacets) + first degree OrderedFacets#0 + sum Conn
 )
 
 -- A function that bounds the regularity of a square-free monomial ideal
 -- INPUT: a simplicial complex
 -- OUTPUT: the value that gives a bound for the leray number of the simplicial complex
 connBound = method()
-connBound SimplicialComplex := ZZ => G -> (
-    L := facets G;
-    N := permutations L;
-    J := for k from 0 to #N - 1 list (
-            A := N#k; 
-            K := for i from 1 to #L-1 list (
-                M := for j from 0 to i-1 list (
-                    first(degree A#i) - first degree gcd(A#j,A#i) - 1
+connBound SimplicialComplex := ZZ => Complex -> (
+    Facets := facets Complex;
+    OrdersList := permutations Facets;
+    ConnBoundsLists := for k from 0 to #OrdersList - 1 list (
+            SelectedOrder := OrdersList#k; 
+            Conn := for i from 1 to #SelectedOrder-1 list (
+                ConnList := for j from 0 to i-1 list (
+                    first(degree SelectedOrder#i) - first degree gcd(SelectedOrder#j,SelectedOrder#i) - 1
                 );
-            min M
+            min ConnList
         );
-        #A - #faces(0,simplicialComplex A) + first degree A#0 + sum K    
+        #SelectedOrder - #faces(0,simplicialComplex SelectedOrder) + first degree SelectedOrder#0 + sum Conn    
     );
-    min J
+    min ConnBoundsLists
 )
 
 -- CODE: find the list of facets with orderings that gives the value for bounds on the Leray number.
 -- INPUT: the simplicial complex
 -- OUTPUT: the list of facets with orderings which gives the value for bounds on the Leray number.
 connBoundFacets = method()
-connBoundFacets SimplicialComplex := ZZ => G -> (
-    L := facets G;
-    N := permutations L;
-    J := for k from 0 to #N - 1 list (
-            A := N#k;
-            K := for i from 1 to #L-1 list (
-                M := for j from 0 to i-1 list (
-                    first(degree A#i) - first degree gcd(A#j,A#i) - 1
+connBoundFacets SimplicialComplex := List => Complex -> (
+    Facets := facets Complex;
+    OrdersList := permutations Facets;
+    ConnBoundLists := for k from 0 to #OrdersList - 1 list (
+            SelectedOrder := OrdersList#k;
+            Conn:= for i from 1 to #OrdersList-1 list (
+                ConnList := for j from 0 to i-1 list (
+                    first(degree SelectedOrder#i) - first degree gcd(SelectedOrder#j,SelectedOrder#i) - 1
                 );
-            min M
+            min ConnList
         );
-        #L - #faces(0,simplicialComplex L) + first degree L#0 + sum K    
+        #Facets - #faces(0,simplicialComplex Facets) + first degree Facets#0 + sum Conn   
     );
-    O := for l from 0 to #J - 1 list (
-    if J#l == min J then N#l
+    ConnBound := min ConnBoundLists;
+    ConnboundList := for l from 0 to #OrdersList - 1 list (
+    if ConnBoundLists#l == ConnBound then OrdersList#l
     );
-    delete(null,O)
+    delete(null,ConnboundList)
 )
 
--- The function $\tilde M$ of the simplicial complex $\Delta$ given order of facets
+-- The function $M$ of the simplicial complex $\Delta$ given order of facets
 -- INPUT: the list of facets with ordering on facets
 -- OUTPUT: the integer $\tilde M$ with respect to the ordering of facets. 
 strBoundwOrder = method()
-strBoundwOrder List := ZZ => L -> (
-    M := 1;
-    S = for i from 1 to #L-1 list (
-        T = simplicialComplex apply(i, j->gcd(L#j,L#i));
-        if #facets simplicialComplex T == 1 then M = M else M = M + 1
+strBoundwOrder List := ZZ => OrderedFacets -> (
+    LerayBound := 1;
+    MvalueList := for i from 1 to #OrderedFacets-1 list (
+        Intersections := apply(i, j -> gcd(OrderedFacets#j,OrderedFacets#i));
+        if #facets simplicialComplex Intersections == 1 then LerayBound = LerayBound else LerayBound = LerayBound + 1
     );
-    last S
+    last MvalueList
 )
 
 -- The function $\tilde M$ of the simplicial complex $\Delta$
 -- INPUT: the list of facets
 -- OUTPUT: the integer $\tilde M$.
 strBound = method()
-strBound SimplicialComplex := ZZ => G -> (
-    L := facets G;
-    N := permutations L;
-    J = for k from 0 to #N - 1 list (
-        M = 1;
-        P = N#k;
-        S = for i from 1 to #P-1 list (
-            T = apply(i, j -> gcd(P#j,P#i));
-            if #facets simplicialComplex T == 1 then M = M else M = M + 1
+strBound SimplicialComplex := ZZ => Complex -> (
+    Facets := facets Complex;
+    OrdersList := permutations Facets;
+    Mvalues = for k from 0 to #OrdersList-1 list (
+        LerayBound := 1;
+        SelectedOrder = OrdersList#k;
+        MvalueList = for i from 1 to #SelectedOrder-1 list (
+            Intersections = apply(i, j -> gcd(SelectedOrder#j,SelectedOrder#i));
+            if #facets simplicialComplex Intersections == 1 then LerayBound = LerayBound else LerayBound = LerayBound + 1
         );
-        last S
+        last MvalueList
     );
-    min J
+    min Mvalues
 )
 
 -- Find the list of facets with orderings that gives the value $\tilde{M}$.
 -- INPUT: the list of facets
 -- OUTPUT: the list of facets with orderings which gives the value $\tilde{M}$.
 strBoundFacets = method()
-strBoundFacets SimplicialComplex := ZZ => G -> (
-    L := facets G;
-    N := permutations L;
-    J = for k from 0 to #N - 1 list (
-        M = 1;
-        P = N#k;
-        S = for i from 1 to #P-1 list (
-            T = apply(i, j -> gcd(P#j,P#i));
-            if #facets simplicialComplex T == 1 then M = M else M = M + 1
+strBoundFacets SimplicialComplex := List => Complex -> (
+    Facets := facets Complex;
+    OrdersList := permutations Facets;
+    StructuralBound = for k from 0 to #OrdersList - 1 list (
+        LerayBound = 1;
+        SelectedOrder = OrdersList#k;
+        MvalueList = for i from 1 to #SelectedOrder-1 list (
+            Intersections = apply(i, j -> gcd(SelectedOrder#j,SelectedOrder#i));
+            if #facets simplicialComplex Intersections == 1 then LerayBound = LerayBound else LerayBound = LerayBound + 1
         );
-        last S
+        last MvalueList
     );
-    K = for l from 0 to #J - 1 list (
-        if J#l == min J then N#l
+    StructuralLerayBound := min StructuralBound
+    StrBoundList = for l from 0 to #OrdersList - 1 list (
+        if StructuralBound#l == StructuralLerayBound then OrdersList#l
     );
-    delete(null,K)
+    delete(null,StrBoundList)
 )
+
 
 -- CODE: Weak shelling of a simplicial complex with ordering of facets
 -- INPUT: The list of facets of a simplicial complex
 -- OUTPUT: A Boolean value and an ordered facets that is a weak shelling of the complex
 weakShellwOrder = method ()
-weakShellwOrder List := (Boolean,List) => L -> (
-    K = for i from 1 to #L-1 list (
-        J = for j from 0 to i-1 list (
-            gcd (L#j,L#i)
+weakShellwOrder List := (Boolean,List) => OrderedFacets -> (
+    WeakShells = for i from 1 to #OrderedFacets-1 list (
+        Intersections = for j from 0 to i-1 list (
+            gcd (OrderedFacets#j,OrderedFacets#i)
         );
-        T = simplicialComplex J;
-        if #faces(0,T) > dim T + 2 then break; L#i
+        ComInt = simplicialComplex Intersections;
+        if #faces(0,ComInt) > dim ComInt + 2 then break; OrderedFacets#i
     );
-    if prepend(L#0,K) == L then return (true, prepend(L#0,K)) else return(false, null)
+    if prepend(OrderedFacets#0,WeakShells) == OrderedFacets then return (true, prepend(OrderedFacets#0,WeakShells)) else return(false, null)
 )
+
 
 -- CODE: A weak shelling of a simplicial complex
 -- INPUT: A simplicial complex
 -- OUTPUT: A weak shelling of a simplicial complex
 weakShelling = method ()
-weakShelling SimplicialComplex := List => G -> (
-    M := facets G;
-    N := permutations M;
-    for k from 0 to #N-1 do (
-        L = N#k;
-        K = for i from 1 to #L-1 list (
-            J = for j from 0 to i-1 list (
-                gcd (L#j,L#i)
+weakShelling SimplicialComplex := List => Complex -> (
+    Facets := facets Complex;
+    OrdersList := permutations Facets;
+    for k from 0 to #OrdersList-1 do (
+        SelectedOrder = OrdersList#k;
+        WeakShells = for i from 1 to #SelectedOrder-1 list (
+            Intersections = for j from 0 to i-1 list (
+                gcd (SelectedOrder#j,SelectedOrder#i)
             );
-            T = simplicialComplex J;
-            if #faces(0,T) > dim T + 2 then break; L#i
+            ComInt = simplicialComplex Intersections;
+            if #faces(0,ComInt) > dim ComInt + 2 then break; SelectedOrder#i
         );
-        if prepend(L#0,K) == L then break L else null   
+        if prepend(SelectedOrder#0,WeakShells) == SelectedOrder then break SelectedOrder else null   
     )
 )
 
@@ -151,42 +155,42 @@ weakShelling SimplicialComplex := List => G -> (
 -- INPUT: A simplicial complex
 -- OUTPUT: Boolean value
 isWeakShellable = method ()
-isWeakShellable SimplicialComplex := Boolean => G -> (
-    M := facets G;
-    N := permutations M;
-    O = for k from 0 to #N-1 do (
-        L = N#k;
-        K = for i from 1 to #L-1 list (
-            J = for j from 0 to i-1 list (
-                gcd (L#j,L#i)
+isWeakShellable SimplicialComplex := Boolean => Complex -> (
+    Facets := facets Complex;
+    OrdersList := permutations Facets;
+    Shelling = for k from 0 to #OrdersList-1 do (
+        SelectedOrder := OrdersList#k;
+        WeakShells = for i from 1 to #SelectedOrder-1 list (
+            Intersections = for j from 0 to i-1 list (
+                gcd (SelectedOrder#j,SelectedOrder#i)
             );
-            T = simplicialComplex J;
-            if #faces(0,T) > dim T + 2 then break; L#i
+            IntCom = simplicialComplex Intersections;
+            if #faces(0,IntCom) > dim IntCom + 2 then break; SelectedOrder#i
         );
-        if prepend(L#0,K) == L then break L else null   
+        if prepend(SelectedOrder#0,WeakShells) == SelectedOrder then break SelectedOrder else null   
     );
-    if #O == #L then true else "notWeakShellable"
+    if #Shelling == #SelectedOrder then true else "notWeakShellable"
 )
 
 -- CODE: The list of ordered facets that is a weak shelling with respect the facet orders
 -- INPUT: A simplicial complex
 -- OUTPUT: The list of ordered facets that are weak shellings of the complex
 weakShellFacets = method ()
-weakShellFacets SimplicialComplex := List => G -> (
-    M := facets G;
-    N := permutations M;
-    O = for k from 0 to #N-1 list (
-        L = N#k;
-        K = for i from 1 to #L-1 list (
-            J = for j from 0 to i-1 list (
-                gcd (L#j,L#i)
+weakShellFacets SimplicialComplex := List => Complex -> (
+    Facets := facets Complex;
+    OrdersList := permutations Facets;
+    weakShellList = for k from 0 to #OrdersList-1 list (
+        SelectedOrder = OrdersList#k;
+        WeakShells = for i from 1 to #SelectedOrder-1 list (
+            Intersections = for j from 0 to i-1 list (
+                gcd (SelectedOrder#j,SelectedOrder#i)
             );
-            T = simplicialComplex J;
-            if #faces(0,T) > dim T + 2 then break; L#i
+            IntCom = simplicialComplex Intersections;
+            if #faces(0,IntCom) > dim IntCom + 2 then break; SelectedOrder#i
         );
-        if prepend(L#0,K) == L then L else null   
+        if prepend(SelectedOrder#0,WeakShells) == SelectedOrder then SelectedOrder else null   
     );
-    delete(null,O)
+    delete(null,weakShellList)
 )
 
 -- The order that minimize the bounds of the Leray number with respect to the connectivity.
@@ -216,9 +220,9 @@ minConnOrder SimplicialComplex := List => G -> (
 -- INPUT: A simplicial Complex
 -- OUTPUT: An (ordered) list of facets
 minOrder = method ()
-minOrder SimplicialComplex := List => G -> (
-    leftFacets := facets G;
-    facetOrders := {last facets G};
+minOrder SimplicialComplex := List => Complex -> (
+    leftFacets := facets Complex;
+    facetOrders := {last facets Complex};
     const := for i from 0 to #leftFacets - 2 list(
             leftFacets = delete(last facetOrders, leftFacets);
             int = for j from 0 to #leftFacets - 1 list(simplicialComplex for k from 0 to #facetOrders - 1 list(gcd(facetOrders#k,leftFacets#j)));
