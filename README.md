@@ -5,6 +5,7 @@ This project is started to support the computations on our paper "Weak Eisenbud-
 If you need some assistance to install the computer software system "Macaulay2", see the webpage http://macaulay2.com/ and follow their instructions.
 
 This project contains some codes on Macaulay2 of functions that gives a upper bounds on Leray numbers of the simplicial complex.
+To use the codes, please download the file "LerayBounds.m2", put the file in "codes" folder of your Macaulay2 directory, and use the command 'load "LerayBounds.m2"' in Macaulay2. 
 
 We currently provide the following codes for upper bounds on Leray number of the simplicial complexes in "LerayBounds.m2".
 - "strBoundwOrder (List)" provides the value $\tilde{M}$ for an upper bound on Leray numbers of a simplicial complex given the linear order of facets (in the list).
@@ -19,3 +20,4 @@ We currently provide the following codes for upper bounds on Leray number of the
 - "weakShellFacets (SimplicialComplex)" provides the list of facet orderings that are weak shelling of the complex.
 
 In "examples.m2", we provide some examples that we have tested.
+
