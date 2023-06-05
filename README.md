@@ -18,6 +18,7 @@ We currently provide the following codes for upper bounds on Leray number of the
 - "weakShelling (SimplicialComplex)" provides a weak shelling of the complex. If it is not weak shellable, it prints the empty list.
 - "isWeakShellable (SimplicialComplex)" provides a boolean value: "true" is printed if it is weak shellable and "false" is printed if is not weak shellable.
 - "weakShellFacets (SimplicialComplex)" provides the list of facet orderings that are weak shelling of the complex.
+- "minOrder (SimplicialComplex)" provides a facet order so that the facets are maximally intersected for each steps in adding facets along the facet order.
 
 In "examples.m2", we provide some examples that we have tested.
 
