@@ -216,3 +216,31 @@ weakShelling G
 isWeakShellable G
 L = minOrder G;
 weakShellwOrder L
+
+
+ -* Some examples *-
+R = QQ[x_1..x_6];
+G = simplicialComplex {x_1*x_2*x_4,x_1*x_3*x_5,x_2*x_3*x_6,x_4*x_5*x_6};
+L = facets G;
+L = minOrder G
+strBoundwOrder L
+strBound G
+strBoundFacets G
+connBoundwOrder L
+connBound G
+connBoundFacets G
+
+R = QQ[x_1..x_8];
+G = simplicialComplex {x_1*x_2*x_3*x_5,x_1*x_3*x_5*x_6,x_1*x_3*x_4*x_6,x_1*x_4*x_6*x_7,x_1*x_2*x_4*x_7,x_3*x_4*x_6*x_8,x_2*x_3*x_4*x_8};
+L = facets G;
+MinL = minOrder G;
+strBoundwOrder L
+strBoundwOrder MinL
+strBound G
+strBoundFacets G
+connBoundwOrder L
+connBoundwOrder MinL
+connBound G
+connBoundFacets G
+
+
