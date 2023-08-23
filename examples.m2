@@ -1,5 +1,5 @@
--- Example 2.4
-R = QQ[x_1..x_6]; -- set a polynomial ring so that variables are vertices of the complex
+--- Example 2.4
+R = QQ[x_1..x_6];
 G = simplicialComplex {x_1*x_2*x_4,x_1*x_3*x_5,x_2*x_3*x_6,x_4*x_5*x_6}
 L = miOrder G -- It gives an ordered list of facets of the simplicial complex G that may give the minimum of bounds on Leray numbers.
 strBoundwOrder L
@@ -8,13 +8,48 @@ strBoundFacets G
 connBoundwOrder L
 connBound G
 connBoundFacets G
+isWeakShellable Delta
+weakShelling Delta
 
--- Remark 4.6
+--- Example: Remark 4.5
+load "LerayBounds.m2"
+R = QQ[x_1..x_5];
+Delta = simplicialComplex{x_1*x_2*x_3*x_4,x_1*x_2*x_5,x_2*x_3*x_5,x_3*x_4*x_5,x_1*x_4*x_5};
+isWeakShellable Delta
+weakShelling Delta
+L = minOrder Delta
+weakShellwOrder L
+strBoundwOrder L
+connBoundwOrder L
+betti res monomialIdeal Delta
+strBound Delta
 
+--- Remark 4.6
+R = QQ[x_1..x_8];
+L = {x_1*x_2*x_3*x_5,x_1*x_3*x_5*x_6,x_1*x_3*x_4*x_6,x_1*x_4*x_6*x_7,x_1*x_2*x_4*x_7,x_3*x_4*x_6*x_8,x_2*x_3*x_4*x_8,x_1*x_2*x_3*x_4}
+Delta = simplicialComplex L
+betti res monomialIdeal Delta
+weakShellwOrder L
+connBoundwOrder L
+strBoundwOrder L
+elapsedTime strBound Delta
+elapsedTime connBound Delta
 
-
-
-
+--- Example 5.3
+R = QQ[x_0..x_4];
+I = monomialIdeal(x_0*x_3, x_3^2, x_1*x_3, x_1^2, x_2*x_3, x_2^2);
+J = polarize I;
+G = simplicialComplex J;
+degree I
+codim I
+degree J
+codim J
+connBound G
+strBound G
+weakShelling G
+isWeakShellable G
+L = minOrder G;
+weakShellwOrder L
 
 -- Other examples
 --- Secant variety of rational normal curves and their generic ideals
