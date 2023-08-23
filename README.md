@@ -1,24 +1,22 @@
 # Bounds-on-Leray-Numbers
 
-This project is started to support the computations on our paper "Weak Eisenbud-Goto conjecture for Stanley-Reisner ideal" joint work with Jinha Kim, Minki Kim, and Yeongrak Kim.
+This project was initiated to support the computations in our paper "Weak Eisenbud-Goto conjecture for Stanley-Reisner ideal," a joint work with Jinha Kim, Minki Kim, and Yeongrak Kim.
 
-If you need some assistance to install the computer software system "Macaulay2", see the webpage http://macaulay2.com/ and follow their instructions.
+If you need assistance installing the computer software system "Macaulay2," please visit the webpage http://macaulay2.com/ and follow the provided instructions.
 
-This project contains some codes on Macaulay2 of functions that gives a upper bounds on Leray numbers of the simplicial complex.
-To use the codes, please download the file "LerayBounds.m2", put the file in "codes" folder of your Macaulay2 directory, and use the command 'load "LerayBounds.m2"' in Macaulay2. 
+The project includes code written in Macaulay2 that consists of functions providing upper bounds on the Leray numbers of simplicial complexes. To use the codes, download the file "LerayBounds.m2," place it in the "codes" folder within your Macaulay2 directory, and execute the command 'load "LerayBounds.m2"' in Macaulay2.
 
-We currently provide the following codes for upper bounds on Leray number of the simplicial complexes in "LerayBounds.m2".
-- "strBoundwOrder (List)" provides the value $M$ in the paper for an upper bound on Leray numbers of a simplicial complex given the linear order of facets (in the list).
-- "strBound (SimplicialComplex)" provides the value $M$ for an upper bound on Leray numbers of a simplicial complex.
-- "strBoundFacets (SimplicialComplex)" provides the lists of facet orderings such that the bounds on Leray number with respect to the facet ordering is same as the bounds of the complex.
-- "connBoundwOrder (List)" provides the value $N$ in the paper for an upper bound on Leray numbers of a simplicial complex given the linear order of facets (in the list).
-- "connBound (SimplicialComplex)" provides the value $N$ for an upper bound on Leray numbers of a simplicial complex.
-- "connBoundFacets (SimplicialComplex)" provides the lists of facet orderings such that the bounds on Leray number with respect to the facet ordering is same as the bounds of the complex.
-- "weakShellwOrder (List)" provides a Boolean value: the output is true if it is a weak shelling of the complex and false if it is not a weak shelling of the complex.
-- "weakShelling (SimplicialComplex)" provides a weak shelling of the complex. If it is not weak shellable, the empty list is printed.
-- "isWeakShellable (SimplicialComplex)" provides a boolean value: "true" is printed if it is weak shellable and "false" is printed if is not weak shellable.
-- "weakShellFacets (SimplicialComplex)" provides the list of facet orderings that are weak shelling of the complex.
-- "minOrder (SimplicialComplex)" provides a facet order so that the facets are maximally intersected for each steps in adding facets along the facet order.
+The current version of the project offers the following codes for obtaining upper bounds on the Leray numbers of simplicial complexes within the "LerayBounds.m2" file:
+- "strBoundwOrder (List)" yields the value $M$ as specified in the paper, providing an upper bound on the Leray numbers of a simplicial complex based on a given linear order of facets (as a list).
+- "strBound (SimplicialComplex)" yields the value $M$ as an upper bound on the Leray numbers of a simplicial complex.
+- "strBoundFacets (SimplicialComplex)" produces lists of facet orderings for which the bounds on the Leray number match those of the complex.
+- "connBoundwOrder (List)" yields the value $N$ as mentioned in the paper, offering an upper bound on the Leray numbers of a simplicial complex based on a given linear order of facets (as a list).
+- "connBound (SimplicialComplex)" yields the value $N$ as an upper bound on the Leray numbers of a simplicial complex.
+- "connBoundFacets (SimplicialComplex)" provides lists of facet orderings for which the bounds on the Leray number match those of the complex.
+- "weakShellwOrder (List)" returns a Boolean value: it outputs "true" if the complex has a weak shelling and "false" if there is no weak shelling.
+- "weakShelling (SimplicialComplex)" provides a weak shelling of the complex. If the complex is not weak-shellable, an empty list is displayed.
+- "isWeakShellable (SimplicialComplex)" produces a Boolean value: "true" if the complex is weak shellable, and "false" if it is not.
+- "weakShellFacets (SimplicialComplex)" provides a list of facet orderings that constitute a weak shelling of the complex.
+- "minOrder (SimplicialComplex)" determines a facet order such that the facets are maximally intersected at each step while adding facets along the facet order.
 
-In "examples.m2", we provide some examples that we have tested.
-
+In the "examples.m2" file, we have provided some tested examples.
