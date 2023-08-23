@@ -1,15 +1,7 @@
--- Presets
-loadPackage "GenericInitialIdeal"
-loadPackage "Resultants"
-loadPackage "PhylogeneticTrees"
-loadPackage "SimplicialComplexes"
-
-
-
--- An example
+-- Example 2.4
 R = QQ[x_1..x_6]; -- set a polynomial ring so that variables are vertices of the complex
-G = simplicialComplex {x_1*x_2*x_4,x_1*x_3*x_5,x_2*x_3*x_6,x_4*x_5*x_6} -- The simplicial complex consists of the facets in {}
-L = facets G -- It gives the list of facets of the simplicial complex G.
+G = simplicialComplex {x_1*x_2*x_4,x_1*x_3*x_5,x_2*x_3*x_6,x_4*x_5*x_6}
+L = miOrder G -- It gives an ordered list of facets of the simplicial complex G that may give the minimum of bounds on Leray numbers.
 strBoundwOrder L
 strBound G
 strBoundFacets G
@@ -17,8 +9,15 @@ connBoundwOrder L
 connBound G
 connBoundFacets G
 
+-- Remark 4.6
 
--- Secant variety of rational normal curves and their generic ideals
+
+
+
+
+
+-- Other examples
+--- Secant variety of rational normal curves and their generic ideals
 (d,r) = (6,2);
 R = QQ[x_0..x_d];
 I = minors(r+1,matrix table(d-r+1,r+1,(i,j)->x_(i+j))) -- The ideal of secant variety of rational normal curve
@@ -28,20 +27,14 @@ DeltaI = simplicialComplex PolarI
 facets DeltaI
 degree PolarI
 codim PolarI
-
-I
 betti res PolarI
 
 --- Projections of rational normal curves away from a point
 (d,r) = (5,2);
 R = QQ[x_0..x_d];
 P1 = QQ[y_0,y_1];
-phi = map(P1,R,basis(d,P1))
-L1 = matrix (id_(R^(d+1))_(r-1))
-L2 = randomRankPoint (d,r)
-J = ker phi
+J = ker map(P1,R,basis(d,P1))
 I1 = ker projection(J,L1) -- The ideal of projections of rational normal curve
-I2 = ker projection(J,L2)
 IniI1 = gin I1
 IniI2 = gin I2
 IniJ = gin J
