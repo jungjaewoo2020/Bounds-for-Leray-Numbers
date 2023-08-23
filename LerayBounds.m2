@@ -9,7 +9,6 @@ connBoundwOrder List := ZZ => OrderedFacets -> (
     );
     #OrderedFacets - #faces(0,simplicialComplex OrderedFacets) + first degree OrderedFacets#0 + sum Conn
 )
-
 connBound = method()
 connBound SimplicialComplex := ZZ => Complex -> (
     Facets := facets Complex;
@@ -26,7 +25,6 @@ connBound SimplicialComplex := ZZ => Complex -> (
     );
     min ConnBoundsLists
 )
-
 connBoundFacets = method()
 connBoundFacets SimplicialComplex := List => Complex -> (
     Facets := facets Complex;
@@ -71,7 +69,6 @@ strBound SimplicialComplex := ZZ => Complex -> (
     );
     min Mvalues
 )
-
 strBoundFacets = method()
 strBoundFacets SimplicialComplex := List => Complex -> (
     Facets := facets Complex;
@@ -102,22 +99,22 @@ weakShellwOrder List := (Boolean,List) => OrderedFacets -> (
     );
     if prepend(OrderedFacets#0,WeakShells) == OrderedFacets then return (true, prepend(OrderedFacets#0,WeakShells)) else return(false, {null})
 )
-
 weakShelling = method ()
 weakShelling SimplicialComplex := List => Complex -> (
     Facets := facets Complex;
     OrdersList := permutations Facets;
-    for k from 0 to #OrdersList-1 do (
-        SelectedOrder = OrdersList#k;
-        WeakShells := for i from 1 to #SelectedOrder-1 list (
-            Intersections := for j from 0 to i-1 list (
-                gcd (SelectedOrder#j,SelectedOrder#i)
-            );
-            ComInt := simplicialComplex Intersections;
-            if #faces(0,ComInt) > dim ComInt + 2 then break; SelectedOrder#i
-        );
-        if prepend(SelectedOrder#0,WeakShells) == SelectedOrder then break SelectedOrder else return {null}   
-    )
+    WeakShellings = for k from 0 to #OrdersList-1 list (
+                    SelectedOrder = OrdersList#k;
+                    WeakShells = for i from 1 to #SelectedOrder-1 list (
+                        Intersections := for j from 0 to i-1 list (
+                            gcd (SelectedOrder#j,SelectedOrder#i)
+                            );
+                        ComInt := simplicialComplex Intersections;
+                        if #faces(0,ComInt) > dim ComInt + 2 then break; SelectedOrder#i
+                        );
+                    if prepend(SelectedOrder#0,WeakShells) == SelectedOrder then SelectedOrder else {null}   
+                    );
+    if delete({null},WeakShellings) == {} then {null} else last delete({null},WeakShellings)
 )
 
 isWeakShellable = method ()
@@ -158,3 +155,5 @@ minOrder SimplicialComplex := List => Complex -> (
         );
     last const
 )
+
+end
